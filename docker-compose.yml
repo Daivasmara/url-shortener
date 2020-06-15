@@ -1,0 +1,61 @@
+version: "3.8"
+services:
+
+  kong-database:
+    image: postgres:12.3
+    networks: 
+      - url-shortener
+    env_file: ./kong-database.env
+    restart: always
+
+  kong-migrations:
+    image: kong:2.0.4
+    networks: 
+      - url-shortener
+    volumes:
+      - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+    env_file: ./kong-migration.env
+    command: "wait-for-it.sh --strict kong-database:5432 -- kong migrations bootstrap"
+    stop_signal: SIGINT
+    depends_on:
+      - kong-database
+    restart: on-failure
+
+  kong:
+    image: kong:2.0.4
+    networks:
+      - url-shortener
+    ports:
+      - 8000:8000
+    env_file: ./kong.env
+    depends_on:
+      - kong-database
+      - kong-migrations
+    restart: always
+
+  konga-prepare:
+    image: pantsel/konga:0.14.9
+    networks:
+      - url-shortener
+    volumes:
+      - ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
+    env_file: ./kong-database.env
+    command: "wait-for-it.sh --strict kong-database:5432 -- -c prepare -a postgres -u postgresql://$${POSTGRES_USER}@kong-database:5432/konga_db"
+    stop_signal: SIGINT
+    depends_on:
+      - kong-database
+    restart: on-failure
+
+  konga:
+    image: pantsel/konga:0.14.9
+    networks:
+      - url-shortener
+    ports:
+      - 1337:1337
+    env_file: ./konga.env
+    depends_on:
+      - kong-database
+    restart: always
+
+networks:
+  url-shortener:
