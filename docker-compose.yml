@@ -57,5 +57,14 @@ services:
       - kong-database
     restart: always
 
+  rabbitmq:
+    image: rabbitmq:3.8.5-management
+    networks:
+      - url-shortener
+    ports:
+      - 15672:15672
+    env_file: ./rabbitmq.env
+    restart: always
+
 networks:
   url-shortener:
