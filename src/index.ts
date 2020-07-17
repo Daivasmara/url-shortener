@@ -11,12 +11,31 @@ import {
 } from '@middlewares/index';
 import v1 from '@v1/index';
 import { ENVIRONMENT } from '@helpers/constants';
+import DB from '@db/index';
 
 dotenv.config();
-const { NODE_ENV, PORT } = process.env;
+const {
+  NODE_ENV,
+  PORT,
+  DB_HOST,
+  DB_PORT,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+} = process.env;
 
 // Express Initialization
 const app = express();
+
+// DB Connection
+const db = new DB({
+  DB_HOST,
+  DB_PORT,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+});
+db.testConnection();
 
 // Middlewares
 app.use(cors());

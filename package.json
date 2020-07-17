@@ -11,6 +11,7 @@
   },
   "_moduleAliases": {
     "@root": "dist",
+    "@db": "dist/db",
     "@middlewares": "dist/middlewares",
     "@helpers": "dist/utils/helpers",
     "@v1": "dist/versions/v1"
@@ -48,6 +49,9 @@
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "module-alias": "^2.2.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.3.0",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.3"
   }
 }

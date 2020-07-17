@@ -19,6 +19,7 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     'no-undef': 'off',
+    'no-underscore-dangle': 0,
   },
   settings: {
     'import/resolver': {
