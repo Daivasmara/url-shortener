@@ -10,6 +10,7 @@ import {
   errorHandler,
 } from '@middlewares/index';
 import v1 from '@v1/index';
+import { ENVIRONMENT } from '@helpers/constants';
 
 dotenv.config();
 const { NODE_ENV, PORT } = process.env;
@@ -20,7 +21,7 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(helmet());
-app.use(morgan(NODE_ENV === 'production' ? 'combined' : 'dev'));
+app.use(morgan(NODE_ENV === ENVIRONMENT.production ? 'combined' : 'dev'));
 app.use(compress());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,14 +29,14 @@ app.use(express.urlencoded({ extended: true }));
 // Welcome
 app.get('/', (_req, res) => {
   res.json({
-    message: 'URL Shortener API',
+    message: 'Welcome to URL Shortener API',
   });
 });
 
 // V1
 app.use('/v1', v1);
 
-// Error Handlers
+// 404 Not Found and Error Handlers
 app.use(notFound);
 app.use(errorHandler);
 
