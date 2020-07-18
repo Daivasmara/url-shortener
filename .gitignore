@@ -1,5 +1,9 @@
+# envs
 kong-database.env
 kong-migration.env
 kong.env
 konga.env
 rabbitmq.env
+
+# docker volumes
+postgres-data/
