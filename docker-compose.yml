@@ -5,6 +5,8 @@ services:
     image: postgres:12.3
     networks: 
       - url-shortener
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
     env_file: ./kong-database.env
     restart: always
 
