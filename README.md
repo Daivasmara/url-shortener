@@ -47,11 +47,11 @@ $ docker run --rm --name url-shortener-postgres \
 $ npm run dev
 
 # web
-npm start
+$ npm start
 ```
 
 ## Production
 ```sh
-docker network create url-shortener
-docker-compose up # root, api
+$ docker network create url-shortener
+$ docker-compose up # root, api
 ```
